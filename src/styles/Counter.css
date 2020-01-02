@@ -1,0 +1,35 @@
+.counter {
+    min-width: 120px;
+}
+.counter button {
+    background-color: tomato;
+    border: 0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .3s;
+}
+.counter button:hover {
+    background-color: brown;
+}
+.counter button:focus {
+    outline: 0;
+}
+.counter button:active {
+    background-color: chocolate;
+}
+.countElem {
+    border: 0;
+    width: 10px;
+}
+.countElem:focus {
+    outline: 0;
+}
+.countElem:disabled {
+    background: none;
+}
