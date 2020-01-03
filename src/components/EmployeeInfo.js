@@ -3,7 +3,6 @@ import '../styles/EmployeeInfo.css';
 import Counter from './Counter';
 
 const EmployeeInfo = param => { 
-    
     return (
         <div className="employeeCard">
             <div className="employeeDetails">
@@ -18,7 +17,7 @@ const EmployeeInfo = param => {
                         <span><strong>Age: </strong> {param.employee_age} years</span>
                     </li>
                 </ul>
-                <Counter {...param} />
+                <Counter id={param.id} count={(param.invitation_per)? param.invitation_per : 0} />
             </div>
         </div>
     );

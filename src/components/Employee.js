@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Axios from 'axios';
 import EmployeeInfo from './EmployeeInfo';
 import '../styles/Employee.css'
@@ -10,37 +10,51 @@ export default class Employee extends Component {
             data: [],
             invitation: []
         };
-        this.addInvitation = this.addInvitation.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    addInvitation(inv) {
-        if(this.state.invitation.length === 0) {
-            this.setState({ invitation: [...this.state.invitation, inv] });
-        } else {
-            const invi = this.state.invitation.map(i => (inv.id === i.id)? {...i, ...inv} : {inv} );
-                this.setState({
-                    invitation: invi
-                })
-            console.log(this.state.invitation);
-            
-        }
+    handleSubmit(e) {
+        // e.preventDefault();
+        // const invitation = { ...this.state.invitation };        
+
+        // Axios({
+        //     url: 'http://localhost:3333/invitations',
+        //     data: invitation,
+        //     method: 'POST'
+        // })
+        // .then(res => res.data)
+        // .catch(err => alert('Unable to update invitation', err))
     }
 
     // get employee details
     componentDidMount() {
         Axios.get('http://localhost:3333/employee')
             .then(res => {
-                this.setState({data: res.data});
+                this.setState({ data: res.data });
+            });
+        Axios.get('http://localhost:3333/invitations')
+            .then(res => {
+                this.setState({ invitation: res.data });
             });
     }
 
     render() {
         const employeeInfo = this.state.data;
+        const invitation = this.state.invitation;
+        const mergeInfo = (employeeInfo, invitation) =>
+            employeeInfo.map(itm => ({
+                ...invitation.find((item) => (item.id === itm.id) && item),
+                ...itm
+            }));
+
+        const info = mergeInfo(employeeInfo, invitation);
+
+
         return (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 < div className="row" >
-                    {(employeeInfo.map(data => (
-                        <EmployeeInfo key={data.id} {...data} addInvitation={this.addInvitation}/>
+                    {(info.map(data => (
+                        <EmployeeInfo key={data.id} {...data} />
                     )))}
                 </div >
                 <input type="submit" value="Submit" className="submitInfo" />

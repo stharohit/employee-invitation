@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Counter.css';
+import CounterBtn from '../rcomponenets/CounterBtn';
 
 const Counter = param => {
     const [counter, setCount] = useState({ "id": param.id, "count": 0 });
@@ -7,22 +8,22 @@ const Counter = param => {
     // handle count change
     const handleChange = (passCount) => {
         setCount({ "id": param.id, "count": passCount });
-        param.addInvitation({ "id": param.id, "count": passCount });
     }
+
+    useEffect(() => {
+        setCount({ "id": param.id, "count": param.count })
+        return () => {
+            console.log('done');
+        };
+    }, [param])
+
+    const count = counter.count;
 
     return (
         <div className='counter'>
-            <button type="button" onClick={() => {
-                const newCount = (counter.count - 1 >= 0) ? counter.count - 1 : 0;
-                handleChange(newCount);
-            }}>-</button>
-
+            <CounterBtn count={count-1} handleChange={handleChange}/>
             <span>{counter.count}</span>
-
-            <button type="button" onClick={() => {
-                const newCount = counter.count + 1;
-                handleChange(newCount);
-            }}>+</button>
+            <CounterBtn count={count+1} handleChange={handleChange}/>
         </div>
     );
 }
